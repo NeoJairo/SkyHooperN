@@ -1,0 +1,2016 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="js/bodymoving.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+      <style>
+        /* If you like this, be sure to ❤️ it. */
+.wrapper {
+  height: 100vh;
+  /* This part is important for centering the content */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* End center */
+  background: -webkit-linear-gradient(to right, #834d9b, #d04ed6);
+  background: linear-gradient(to right, #834d9b, #d04ed6);
+}
+
+.wrapper a {
+  display: inline-block;
+  text-decoration: none;
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 3px;
+  text-transform: uppercase;
+  color: #585858;
+  font-family: 'Roboto', sans-serif;
+}
+
+.modal {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(77, 77, 77, .7);
+  transition: all .4s;
+  z-index: 2999 !important;
+}
+
+.modal:target {
+  visibility: visible;
+  opacity: 1;
+}
+
+.modal__content {
+  border-radius: 4px;
+  position: relative;
+  width: 500px;
+  max-width: 90%;
+  background: #fff;
+  padding: 1em 2em;
+}
+
+.modal__footer {
+  text-align: right;
+  a {
+    color: #585858;
+  }
+  i {
+    color: #d02d2c;
+  }
+}
+.modal__close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #585858;
+  text-decoration: none;
+}
+        .container {
+  display: none;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+ 
+}
+.container2 {
+  width: 100vw; /* Занимает 100% ширины экрана */
+  
+  position: absolute;
+  overflow: hidden; /* Скрыть содержимое, выходящее за границы контейнера */
+  z-index: 101 !important;
+ 
+  
+
+}
+.container.grid, .container.columns {
+  align-content: stretch;
+  align-items: stretch;
+  flex-wrap: wrap;
+}
+.letter {
+  text-align: center;
+  color: whitesmoke;
+  font-size: 10vmax;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 6px;
+}
+.container.grid .letter {
+  flex-basis: 50%;
+}
+.container.columns .letter {
+  flex-basis: 25%;
+}
+.for, .gsap {
+  font-size: 5vmax;
+  color: white;
+}
+.for {
+  padding: 2px 1.6vmax;
+  font-weight: 300;
+  display: none;
+}
+.gsap {
+  padding: 2px 0;
+  font-weight: 600;
+  display: none;
+}
+.container.final .for, .container.final .gsap {
+  display: block;
+  
+}
+.F {
+  background:rgb(11, 235, 11);
+}
+.l {
+  background: rgb(33, 114, 33);
+}
+.i {
+   background:rgb(66, 102, 143);;
+}
+.p {
+  background:rgb(142, 56, 165);
+}
+.container.plain .letter {
+  background: transparent;
+  color: white;
+  padding: 0;
+}
+
+.logo {
+  position: fixed;
+  width: 100px;
+  bottom: 20px;
+  right: 30px;
+}
+
+        
+        #lottie-container {
+          position: fixed;
+          top: -82px;
+          left: -78px;
+          width: 57%;
+          height: 61%;  
+          z-index: 9999;  
+          display: none;
+        }
+      </style></title>
+    <style>
+      body {
+        height: 100vh;
+        overflow-x: hidden !important;
+        overflow-y: hidden !important;
+        background-image: url("/media//image\ 7.png");
+        background-size: cover;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        /* Ocultar el desplazamiento horizontal */
+      }
+
+      .clouds {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 10;
+        overflow: hidden;
+      }
+
+      .clouds::before {
+        content: "";
+        position: absolute;
+        width: 200px;
+        /* Ancho de las nubes */
+        height: 100px;
+        /* Alto de las nubes */
+        background-image: url("https://lewahouse.com/wp-content/themes/lewa/public/images/map/cloud04.png");
+        background-repeat: repeat-x;
+        background-size: auto 100%;
+        opacity: 0.5;
+        animation: moveClouds 30s linear infinite;
+      }
+
+      /* Añade más estilos para más capas de nubes */
+
+      @keyframes moveClouds {
+        0% {
+          left: -100%;
+        }
+
+        100% {
+          left: 100%;
+        }
+      }
+
+      #canvas-container {
+        
+        /* Fijar la posición del contenedor */
+        top: 0;
+        /* Anclar el contenedor en la parte superior */
+        left: 0;
+        /* Anclar el contenedor en la parte izquierda s*/
+        width: 100%;
+        /* Establecer el ancho al 100% del viewport */
+
+        height: 100%;
+        background: ere;
+        background-size: cover;
+        /* Establecer la altura al 100% del viewport */
+        overflow: hidden;
+        /* Ocultar cualquier contenido que se desborde del contenedor */
+      }
+
+      #loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.249);
+        /* Fondo semitransparente */
+        display: none;
+        z-index: 9;
+      }
+
+      #loading-screen * {
+        color: black;
+      }
+
+      .spinner-container {
+        position: absolute;
+        top: 46.8%;
+        left: 50.17%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        color: white;
+        font-family: Arial, sans-serif;
+      }
+
+      .spinner {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 4px solid rgba(255, 255, 255, 0.2);
+        /* Borde blanco semitransparente */
+        border-top: 4px solid #fff;
+        /* Borde blanco */
+        animation: spin 1s linear infinite;
+      }
+
+      .loading-text {
+        margin-top: 20px;
+        font-size: 16px;
+      }
+      @keyframes fadeIn {
+    to {
+      opacity: 1;
+    }
+  }
+
+  .myBtn:hover,
+.myBtn:active {
+  box-shadow: 
+    inset 0 9px 6px rgba(0, 0, 0, 0),  /* Sombra interna 1 cambiada */
+    inset 0 -4px 50px rgba(255, 255, 255, 0.25),  /* Sombra interna 2 cambiada */
+    0px 4px 4px rgba(0, 0, 0, 0.4),
+    0px -4px 5px rgba(255, 255, 255, 0.4);
+    
+}
+
+.myBtn:active {
+  box-shadow: 
+    inset 0 9px 6px rgba(0, 0, 0, 0),  /* Sombra interna 1 cambiada */
+    inset 0 -4px 50px rgba(255, 255, 255, 0.25),  /* Sombra interna 2 cambiada */
+    0px 4px 4px rgba(0, 0, 0, 0.4),
+    0px -4px 5px rgba(255, 255, 255, 0.4);
+  transition: none !important; /* Desactiva cualquier transición previa */
+}
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      svg {
+        width: 200px;
+        transform: translateX(-50%) translateY(-50%);
+        top: 50%;
+        left: 50%;
+        display: block;
+      }
+
+      /*parte slide*/
+      main {
+       z-index: 111 !important;
+        position: relative;
+      }
+
+      #info {
+        z-index: 2;
+        position: fixed;
+        top: 0;
+        left: 0;
+        padding: 12px;
+        pointer-events: none;
+        background-color: rgba(255, 255, 255, 0.9);
+        font-family: monospace;
+        font-size: 16px;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        scroll-behavior: smooth;
+        height: 100%;
+        width: 100%;
+      }
+
+      body,
+      .slide {
+        height: 100vh;
+        width: 100%;
+        padding: 0;
+        
+      }
+
+      body {
+        position: relative;
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        width: 100%;
+      }
+
+      .content {
+        display: none;
+      }
+
+      .overlayContainer {
+       
+      }
+
+      .overlay {
+        position: fixed;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.274);
+        width: 100%;
+        z-index: 199999;
+        /* background: rgba(0, 0, 0, 0.4) url("LOGO_YairoCSS.svg") no-repeat center;*/
+        background-blend-mode: color;
+        background-size: cover;
+        font-family: "Staatliches";
+      }
+
+      .backText {
+        visibility: hidden;
+        color: rgba(225, 225, 225, 0.185);
+        position: absolute;
+        top: 39%;
+        left: 52%;
+        font-size: 15em;
+        margin: 0;
+        padding: 0;
+        transform: translate(-50%, -50%);
+      }
+
+      .myBtn {
+        top: 50%;
+        left: 50%;
+        justify-content: center;
+        width: 80%;
+        display: flex;
+        border: 0 none;
+        box-shadow: inset 0px 9px 13px rgba(0, 0, 0, 0.25), 
+              inset 0px -4px 4px rgba(255, 255, 255, 0.25),
+              0px 4px 4px rgba(0, 0, 0, 0.2), 
+              0px -4px 5px rgba(255, 255, 255, 0.5);
+              transition:box-shadow 0.3s ease;
+        animation: fadeIn 1s forwards; /* Анимация появления */
+      
+
+      }
+
+      button {
+        display: block;
+        padding: 24px 48px;
+        font-family: "Montserrat", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 700;
+        font-style: normal;
+        font-size: 12px;
+        letter-spacing: 6px;
+        color: #fff;
+        border-radius: 21px;
+        text-transform: uppercase;
+        outline: none;
+        overflow: hidden;
+        background: none;
+        z-index: 1;
+        cursor: crosshair;
+       
+      }
+
+      /* SlideShow */
+      .slides {
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 2em;
+        padding: 0;
+        overflow-x: hidden;
+        width: 95%;
+        box-shadow: -1px 1px 13px 0px black;
+      }
+
+      .slide {
+        background-size: cover;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-blend-mode: color;
+        background-color: rgba(0, 0, 0, 0.4);
+        position: absolute;
+        transition: ease;
+        transition-duration: 0.7s;
+        height: 100%;
+        font-family: "Staatliches";
+        letter-spacing: 0.2em;
+      }
+
+      .slide h1 {
+        color: white;
+        padding: 3px;
+      }
+
+      .slider-1 {
+        background-image: url("");
+      }
+
+      .slider-2 {
+        background-image: url("");
+      }
+
+      .slider-3 {
+        background-image: url("");
+      }
+
+      .slider-4 {
+        background-image: url("");
+      }
+
+      .slider-5 {
+        background-image: url("");
+      }
+
+      .slides {
+        position: relative;
+        height: 50vh;
+      }
+
+      .right {
+        transform: translateX(100%);
+        position: absolute;
+        top: 46.9%;
+        right: 0;
+        padding-right: 0.8em;
+        transition: ease-in-out;
+        transition-duration: 0.3s;
+        cursor: pointer;
+      }
+
+      .left {
+        transform: translateX(-100%);
+        position: absolute;
+        top: 46.9%;
+        left: 0;
+        padding-left: 0.8em;
+        transition: ease-in-out;
+        transition-duration: 0.3s;
+        cursor: pointer;
+      }
+
+      .showArrow {
+        transform: translateX(0);
+      }
+
+      .showImg {
+        opacity: 1;
+      }
+
+      .hideImg {
+        opacity: 0;
+      }
+
+      .java {
+        display: inline-block;
+        font-size: 5em;
+        border: 4px solid white;
+        padding: 0 0.3em;
+        line-height: 1em;
+        color: white;
+        transform: translateX(0.5em);
+        margin-top: 0.3em;
+      }
+
+      .codingCafe {
+        color: white;
+        font-weight: lighter;
+        transform: translateX(100px);
+      }
+
+      /* NAVIGATION */
+
+      .navbar {
+        background: black;
+        top: 0;
+        width: 100%;
+        height: 3rem;
+        transition: all 1s ease;
+        position: relative;
+        z-index: 1;
+        margin: 0 0 2em;
+        z-index: 100;
+        position: relative;
+      }
+
+      .fixed-nav .navbar {
+        position: fixed;
+        box-shadow: 0 5px 0 rgba(0, 0, 0, 0.1);
+      }
+
+      .navbar ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+      }
+
+      .navbar li {
+        flex: 1;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .navbar a:hover {
+        letter-spacing: 1px;
+      }
+
+      .navbar a {
+        text-decoration: none;
+        color: white;
+        font-family: "Staatliches";
+        font-weight: lighter;
+        transition: 0.3s ease;
+      }
+
+      li.logo {
+        max-width: 0;
+        overflow: hidden;
+        background: white;
+        transition: all 0.5s;
+        font-weight: 600;
+        font-size: 30px;
+        z-index: 100;
+        height: 3rem;
+      }
+
+      .logo a {
+        color: black;
+      }
+
+      .fixed-nav li.logo {
+        max-width: 500px;
+      }
+
+      /* MENU */
+
+      .menuChoice {
+        display: flex;
+        justify-content: space-evenly;
+        border-left: 2px solid black;
+        font-family: "Staatliches";
+        margin: 2.5em auto;
+        width: 50%;
+        align-items: center;
+        padding: 2em;
+      }
+
+      .menuChoice span {
+        padding: 0 1em;
+      }
+
+      .choice {
+        display: flex;
+        place-items: center;
+        background-color: #161616;
+        padding: 1em 2em;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: 0.3s ease;
+      }
+
+      .choice:hover {
+        background-color: white;
+        box-shadow: inset 0px 1px 5px 0px black;
+      }
+
+      .choice a {
+        text-decoration: none;
+        color: white;
+        letter-spacing: 1.5px;
+      }
+
+      .choice:hover a {
+        color: black;
+      }
+
+      .menuImgContainer {
+        position: relative;
+        display: flex;
+        align-items: center;
+        color: white;
+        justify-content: center;
+      }
+
+      .menuImg {
+        max-height: 200px;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+      }
+
+      .menuImgContainer:hover .menuImg {
+        border-radius: 30%;
+        transform: scale(1.1);
+        cursor: pointer;
+      }
+
+      .menuImgContainer span {
+        position: absolute;
+        font-family: "Open Sans";
+        border: 1px solid white;
+        font-weight: 400;
+        padding: 0.1em 0.2em;
+      }
+
+      /* COLD MENU */
+      .coldMenu {
+        display: none;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        padding: 2em;
+      }
+
+      /* HOT MENU */
+      .hotMenu {
+        display: none;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        padding: 2em;
+      }
+
+      /* ABOUT SECTION */
+      .headingWrapper {
+        font-size: 10rem;
+        padding: 0 0 0 0.2em;
+        margin: 0 0 0 0.2em;
+        font-family: "Open Sans Condensed";
+        font-weight: 700;
+        color: white;
+        position: relative;
+        background-color: black;
+        height: 200px;
+        width: 40%;
+        float: left;
+      }
+
+      .headingWrapper span {
+        display: inline-block;
+        position: absolute;
+      }
+
+      .b {
+        z-index: 1;
+        transform: translateX(0.4em);
+        text-shadow: -3px 0px 20px black, 2px 1px 18px black;
+      }
+
+      .o {
+        transform: translateX(0.75em);
+      }
+
+      .u {
+        transform: translateX(1.17em);
+        z-index: 1;
+        text-shadow: -3px -2px 18px black;
+      }
+
+      .t {
+        transform: translateX(1.64em);
+        z-index: 1;
+        text-shadow: -2px -2px 20px black;
+      }
+
+      .aboutContent {
+        column-count: 3;
+        padding: 0 3em 0 2em;
+      }
+
+      .lorem {
+        margin: 5em;
+      }
+
+      /* SCROLLBAR     */
+      ::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+        background-color: #f5f5f5;
+      }
+
+      ::-webkit-scrollbar {
+        width: 11px;
+        background-color: #f5f5f5;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        background-color: black;
+      }
+
+      /* MEDIA QUERIES    */
+
+      @media (max-width: 800px) {
+        .menuChoice {
+          flex-direction: column;
+        }
+
+        .menuChoice h1 {
+          padding-bottom: 0.8em;
+        }
+      }
+
+      @media (max-width: 1340px) {
+        .aboutContent {
+          clear: both;
+          padding-top: 2em;
+        }
+      }
+
+      @media (max-width: 790px) {
+        .aboutContent {
+          clear: both;
+          column-count: 2;
+          padding-top: 2em;
+        }
+
+        .headingWrapper {
+          /* padding-right:3em; */
+          width: 90vw;
+          margin: 0;
+        }
+      }
+
+      @media (max-width: 650px) {
+        .aboutContent {
+          column-count: 1;
+        }
+      }
+
+      #vignette {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.2);
+        /* Oscurecimiento total */
+        -webkit-mask-image: radial-gradient(
+          circle,
+          transparent 50%,
+          black 100%
+        );
+        mask-image: radial-gradient(circle, transparent 50%, black 100%);
+        backdrop-filter: blur(5px);
+        pointer-events: none;
+      }
+
+      #vignette2 {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 3%;
+        pointer-events: none;
+        /* Permite que los elementos debajo sigan siendo interactivos */
+        background: linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0.5) 0%,
+          rgba(0, 0, 0, 0) 100%
+        );
+        mix-blend-mode: multiply;
+        /* Ajusta el modo de mezcla según el efecto deseado */
+      }
+      .prueba{
+        visibility: hidden;
+        display: flex;
+        flex-direction: column;
+        width: 20vh;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.308);
+        z-index: 999 !important;
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        
+      }
+      div#prueba1.Izq {
+        right: 0;
+        left: inherit;
+    }
+
+    </style>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@v0.149.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@v0.149.0/examples/jsm/"
+        }
+      }
+    </script>
+    <script type="module">
+      // Declare the chart dimensions and margins.
+      const width = 640;
+      const height = 400;
+      const marginTop = 20;
+      const marginRight = 20;
+      const marginBottom = 30;
+      const marginLeft = 40;
+
+      // Declare the x (horizontal position) scale.
+      const x = d3
+        .scaleUtc()
+        .domain([new Date("2023-01-01"), new Date("2024-01-01")])
+        .range([marginLeft, width - marginRight]);
+
+      // Declare the y (vertical position) scale.
+      const y = d3
+        .scaleLinear()
+        .domain([0, 100])
+        .range([height - marginBottom, marginTop]);
+
+      // Create the SVG container.
+      const svg = d3.create("svg").attr("width", width).attr("height", height);
+
+      // Add the x-axis.
+      svg
+        .append("g")
+        .attr("transform", `translate(0,${height - marginBottom})`)
+        .call(d3.axisBottom(x));
+
+      // Add the y-axis.
+      svg
+        .append("g")
+        .attr("transform", `translate(${marginLeft},0)`)
+        .call(d3.axisLeft(y));
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/Observer.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollToPlugin.min.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/Flip.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/MotionPathPlugin.min.js"></script>
+
+    <!-- RoughEase, ExpoScaleEase and SlowMo are all included in the EasePack file -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/EasePack.min.js"></script>
+
+    <script>
+      // use a script tag or an external JS file
+      
+    </script>
+  </head>
+
+  <body>
+    <div id="demo-modal" class="modal">
+      <div class="modal__content">
+          <h1>CSS Only Modal</h1>
+  
+          <p>
+              You can use the :target pseudo-class to create a modals with Zero JavaScript. Enjoy!
+          </p>
+  
+          <div class="modal__footer">
+              Made with <i class="fa fa-heart"></i>, by <a href="https://twitter.com/denicmarko" target="_blank">@denicmarko</a>
+          </div>
+  
+          <a href="#" class="modal__close">&times;</a>
+      </div>
+  </div>
+    <div class="prueba Izq" id="prueba1">
+      <div style="
+    align-items: center;
+    position: relative;
+  height: 100%;
+  display: flex;
+">
+          <svg id="giblan" href="#demo-modal" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet" width="100" height="100"  style ="transform:none!important;" viewBox="0 0 100 100" style="width:100%;height:100%"><defs><animate repeatCount="indefinite" dur="0.3333333s" begin="0s" xlink:href="#_R_G_L_0_G_D_0_P_0" fill="freeze" attributeName="fill" from="#eeeeee" to="#eeeeee" keyTimes="0;1" values="#eeeeee;#ffffff" keySplines="0.167 0.167 0.833 0.833" calcMode="spline"></animate><animateTransform repeatCount="indefinite" dur="0.3333333s" begin="0s" xlink:href="#_R_G_L_0_G" fill="freeze" attributeName="transform" from="1 1" to="1.1 1.1" type="scale" additive="sum" keyTimes="0;1" values="1 1;1.1 1.1" keySplines="0.167 0.167 0.833 0.833" calcMode="spline"></animateTransform><animateTransform repeatCount="indefinite" dur="0.3333333s" begin="0s" xlink:href="#_R_G_L_0_G" fill="freeze" attributeName="transform" from="-35 -35" to="-35 -35" type="translate" additive="sum" keyTimes="0;1" values="-35 -35;-35 -35" keySplines="0 0 1 1" calcMode="spline"></animateTransform><animate attributeType="XML" attributeName="opacity" dur="0s" from="0" to="1" xlink:href="#time_group"></animate></defs><g id="_R_G"><g id="_R_G_L_0_G" transform=" translate(50, 50)"><path id="_R_G_L_0_G_D_0_P_0" fill="#eeeeee" fill-opacity="1" fill-rule="nonzero" d=" M35 58.33 C41.51,58.33 47.03,56.07 51.55,51.55 C56.07,47.03 58.33,41.52 58.33,35 C58.33,28.49 56.07,22.97 51.55,18.45 C47.03,13.93 41.51,11.67 35,11.67 C28.49,11.67 22.97,13.93 18.45,18.45 C13.93,22.97 11.67,28.49 11.67,35 C11.67,41.52 13.93,47.03 18.45,51.55 C22.97,56.07 28.49,58.33 35,58.33z  M35 64.17 C30.97,64.17 27.17,63.4 23.63,61.87 C20.08,60.34 16.99,58.26 14.36,55.64 C11.74,53.01 9.66,49.93 8.13,46.38 C6.6,42.83 5.83,39.04 5.83,35 C5.83,30.97 6.6,27.17 8.13,23.63 C9.66,20.08 11.74,16.99 14.36,14.37 C16.99,11.74 20.08,9.66 23.63,8.13 C27.17,6.6 30.97,5.83 35,5.83 C39.03,5.83 42.83,6.6 46.38,8.13 C49.92,9.66 53.01,11.74 55.64,14.37 C58.26,16.99 60.34,20.08 61.87,23.63 C63.4,27.17 64.17,30.97 64.17,35 C64.17,39.04 63.4,42.83 61.87,46.38 C60.34,49.93 58.26,53.01 55.64,55.64 C53.01,58.26 49.92,60.34 46.38,61.87 C42.83,63.4 39.03,64.17 35,64.17z  M30.92 48.42 C30.92,48.42 51.48,27.85 51.48,27.85 C51.48,27.85 47.4,23.77 47.4,23.77 C47.4,23.77 30.92,40.25 30.92,40.25 C30.92,40.25 22.6,31.94 22.6,31.94 C22.6,31.94 18.52,36.02 18.52,36.02 C18.52,36.02 30.92,48.42 30.92,48.42z "></path></g></g><g id="time_group"></g></svg>
+      </div>
+  </div>
+    <div class="prueba Der" id="prueba2">
+      w
+    </div>
+    <div clas="prueba Abajo" id="prueba3" style="bottom: 0 !important;
+      visibility: hidden;
+      position: fixed;
+      width: 100vw !important;
+      height: 8rem;
+      left: 0;
+     bottom: 0 !important;
+      background: #00000066;
+      z-index: 999 !important;">
+      w
+    </div>
+      <div class="container2" id="container2"> 
+<img id="image1" src="media\1stCloud.png" alt="Изображение 1">
+<img id="image2" src="media\2ndCloud.png" alt="Изображение 2">
+<img id="image3" src="media\3rdCloud.png" alt="Изображение 3">
+
+    </div>
+    <main id="main">
+      <link
+        href="https://fonts.googleapis.com/css?family=Staatliches|Open+Sans:400,300|Open+Sans+Condensed:700"
+        rel="stylesheet"
+      />
+      <div
+        class="overlayContainer"
+        id="overlayContainer"
+        style="
+          width: 100vw !important;
+          height: 100vh !important;
+          z-index: 99 !important;
+          
+        "
+      >
+        <div
+        id="overlay"
+          class="overlay"
+          style="
+            height: 125vh;
+            flex-direction: column;
+            padding: 0.5rem;
+            z-index: 98 !important;
+            display: flex !important;
+            width: 100% !important;
+            display: flex;
+            align-items: center;
+          "
+        >
+          <div
+            class="headerEmovere"
+            style="
+              align-self: flex-start;
+              width: 100%;
+              height: 10%;
+              display: flex;
+              justify-content: center;
+            "
+          >
+            <object
+              id="branding"
+              type="image/svg+xml"
+              data="/media/image_8-svg.svg"
+              style="width: 13.5% !important"
+              style="
+                pointer-events: none;
+                position: sticky;
+                z-index: 99 !important;
+                stroke: transparent;
+              "
+            ></object>
+          </div>
+          <object
+          id="animated-svg12"
+          type="image/svg+xml"
+          data="LOGO_YairoCSS.svg"
+          style="
+            pointer-events: none;
+            z-index: 99 !important;
+            width: 52%;
+            height: 53%;
+          "
+        ></object>
+          <div class="container final"  id="containerFinal">
+            <div class="letter F">F</div>
+            <div class="letter l">L</div>
+            <div class="letter i">I</div>
+            <div class="letter p">P</div>
+            <div class="for">for</div>
+            <div class="gsap">GSAP</div>
+          </div>
+          <div
+            class="intro"
+            id="intro"
+            style="
+              display: flex;
+              justify-content: center;
+              bottom: -3% !important;
+              position: relative;
+            "
+          >
+            <button
+              class="myBtn"
+              id="myBtn"
+              style="z-index: 100 !important; visibility: hidden;"
+            >
+              EXPLORE
+            </button>
+            <button
+            class="myBtn"
+            id="myBtn2"
+            style="z-index: 100 !important; display: none;"
+          >
+            SKIP TUTORIAL 
+          </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="slides">
+          <div class="slider-1 slide">
+            <div class="java">Ja<br />va</div>
+            <br />
+            <div class="codingCafe">Coding Cafe</div>
+          </div>
+
+          <div class="slider-2 slide">
+            <div class="java">Ja<br />va</div>
+            <br />
+            <div class="codingCafe">Coding Cafe</div>
+          </div>
+
+          <div class="slider-3 slide">
+            <div class="java">Ja<br />va</div>
+            <br />
+            <div class="codingCafe">Coding Cafe</div>
+          </div>
+
+          <div class="slider-4 slide">
+            <div class="java">Ja<br />va</div>
+            <br />
+            <div class="codingCafe">Coding Cafe</div>
+          </div>
+
+          <div class="slider-5 slide">
+            <div class="java">Ja<br />va</div>
+            <br />
+            <div class="codingCafe">Coding Cafe</div>
+          </div>
+
+          <span class="right arrow">rigth<img src="" alt="" /></span>
+          <span class="left arrow">left<img src="" alt="" /></span>
+        </div>
+
+        <div class="navbar">
+          <ul>
+            <li class="logo"><a href="#">JAVA.</a></li>
+            <li><a href="#menu">Menu</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">Blah</a></li>
+          </ul>
+        </div>
+
+        <div class="about">
+          <div class="headingWrapper">
+            <span class="a">A</span>
+            <span class="b">B</span>
+            <span class="o">O</span>
+            <span class="u">U</span>
+            <span class="t">T</span>
+          </div>
+        </div>
+        <div class="aboutContent" style="opacity: 0">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat
+          blanditiis nisi numquam modi itaque sunt est voluptatum assumenda
+          delectus tempora nostrum officia dolorum quasi deserunt soluta, quos
+          quod ea qui quibusdam. Quisquam unde possimus, tempora quae assumenda
+          molestias cum rem, repellendus deleniti ut eos repudiandae quos fugiat
+          porro. Reiciendis porro fuga culpa quis maxime expedita quae saepe
+          magni nemo modi ex vero accusamus corrupti laborum, labore earum, id
+          fugiat beatae cupiditate natus quod sequi. Et esse quae necessitatibus
+          dicta magnam quia, quidem vel, laboriosam numquam modi ex odio dolorum
+          odit amet cum delectus commodi nesciunt quaerat obcaecati magni? Nam
+          inventore possimus obcaecati praesentium rerum commodi laudantium quam
+          voluptates libero voluptate qui nulla tempora, officiis a ipsum facere
+          quod recusandae vero. Quasi soluta molestias nisi culpa, porro nulla
+          enim aperiam minima iste nam consequatur fugiat eum voluptates eaque.
+          Enim, beatae? Omnis sit provident voluptas, dicta consequuntur
+          similique eveniet ratione deserunt eum. Eius beatae quos distinctio
+          assumenda dolore voluptas autem accusantium quod officia alias magni
+          ut accusamus inventore molestiae ducimus blanditiis ex maiores quia,
+          ad ea aut voluptatibus tenetur. Vero doloremque fugiat eum suscipit
+          recusandae delectus officia, debitis eligendi rerum. Totam sit
+          adipisci numquam quibusdam doloremque voluptates non aspernatur.
+          Laudantium, facere impedit.
+        </div>
+
+        <div class="menuChoice" id="menu" style="opacity: 0">
+          <h1>
+            What Kind of Drink<br />
+            Would You Like?
+          </h1>
+          <div class="hot choice" style="opacity: 0">
+            <a href="javascript:void(0)">Hot</a>
+          </div>
+          <span>or</span>
+          <div class="cold choice" style="opacity: 0">
+            <a href="javascript:void(0)">Cold</a>
+          </div>
+        </div>
+
+        <div class="coldMenu"></div>
+
+        <div class="hotMenu"></div>
+
+        <div class="lorem" style="opacity: 0">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe modi
+          architecto totam ea, fugiat sequi odio ex, ducimus autem repudiandae
+          fuga doloremque eius optio reiciendis voluptatibus ipsam quam
+          asperiores vero delectus suscipit dolores cumque aut? Earum inventore
+          est, fuga, voluptatum quis quod possimus facere molestiae qui maxime
+          repellat et, natus alias exercitationem atque iste ab! Odit, a!
+          Delectus deleniti, eaque rem animi architecto cumque necessitatibus
+          qui iure quas vero quia saepe aliquam tenetur voluptatibus dolor in
+          similique quisquam minus molestias. Mollitia laboriosam exercitationem
+          libero voluptatum iusto? Inventore distinctio cupiditate,
+          necessitatibus officia provident aperiam ullam natus tempore itaque
+          ratione repellat deleniti dignissimos aliquam aliquid! Et corrupti
+          perspiciatis rerum optio provident voluptas cumque odit vitae delectus
+          molestias veniam esse, facilis deserunt praesentium possimus magnam
+          reiciendis, maiores commodi qui inventore laboriosam nemo libero
+          expedita sed. Sint perferendis iusto quae pariatur sequi dignissimos
+          ipsa non odit provident. Veniam vel nihil quaerat ipsa quibusdam
+          quidem vero eos dolorem natus rerum, sed aut architecto, at obcaecati
+          possimus deleniti neque dolor! Eius recusandae itaque officia,
+          provident vitae, ut optio amet voluptatibus soluta facere saepe esse
+          alias ex deserunt expedita in, asperiores veniam eos culpa omnis
+          placeat! Molestiae assumenda cumque alias, sunt sapiente repellat
+          cupiditate eius delectus, perspiciatis, nostrum aut a explicabo? Fugit
+          rerum ipsam at consectetur officiis earum sapiente pariatur numquam ea
+          optio dolorem ratione vitae dolor perspiciatis voluptates illo,
+          provident maxime dicta sed quia molestiae nisi voluptatum perferendis!
+          Ab, incidunt culpa? Sequi similique consequatur officia, quo
+          necessitatibus doloribus placeat aliquam reiciendis omnis voluptates
+          quia minima culpa libero, magnam unde mollitia facilis. Iste illum
+          porro quibusdam voluptatibus nemo iure, natus optio vitae eligendi!
+          Pariatur repellat quam nulla quia! Minus adipisci laudantium maxime
+          molestiae, eaque magnam unde deserunt optio quaerat est illo
+          cupiditate perferendis dolor expedita ipsum nesciunt commodi odio! Cum
+          corporis hic, nam error dolor quisquam natus?
+        </div>
+      </div>
+      <div id="lottie-container"></div>
+    </main>
+
+    <div id="loading-screen">
+      <div class="spinner-container">
+        <object
+          id="animated-svg1"
+          type="image/svg+xml"
+          data="LOGO_YairoCSS.svg1"
+          style="width: 200px; height: auto"
+        ></object>
+        <script>
+          /*
+        const items = document.querySelectorAll(".data");
+
+          gsap.from(items, {
+            textContent: 0,
+            duration: 4,
+            ease: Power1.easeIn,
+            snap: { textContent: 1 },
+            stagger: 0
+            // onUpdate: textContent.replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+          });
+          */
+          // Función para activar la animación dentro del SVG
+          function playSVGAnimation() {
+            // Obtener el contenido del SVG
+            var svgObject = document.getElementById("animated-svg");
+            var svgDocument = svgObject.contentDocument;
+            if (svgDocument !== null) {
+              // Acceder al elemento que contiene la animación (ajústalo según la estructura de tu SVG)
+              var animationElement =
+                svgDocument.getElementById("animated-element");
+              // Activar la animación
+              animationElement.beginElement();
+            }
+          }
+
+          // Reproducir la animación cuando se cargue el SVG
+        </script>
+        <div class="loading-text" id="textLoading" style="display: none">
+          Loading...
+        </div>
+      </div>
+    </div>
+    <div id="canvas-container" style="display: block !important;visibility:hidden;height: 100vh;"></div>
+    <div id="vignette"></div>
+    <div id="vignette2"></div>
+    
+    <script src="
+    https://cdn.jsdelivr.net/npm/lottie-web@5.12.2/build/player/lottie.min.js
+    "></script>
+    <script type="module" src="/js/visor.js"></script>
+    <script src="/js/slide.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+   
+    <script>
+      !(function (t, n) {
+        "object" == typeof exports && "undefined" != typeof module
+          ? (module.exports = n())
+          : "function" == typeof __SVGATOR_DEFINE__ && __SVGATOR_DEFINE__.amd
+          ? __SVGATOR_DEFINE__(n)
+          : (((t =
+              "undefined" != typeof globalThis
+                ? globalThis
+                : t || self).__SVGATOR_PLAYER__ = t.__SVGATOR_PLAYER__ || {}),
+            (t.__SVGATOR_PLAYER__["5c7f360c"] = n()));
+      })(this, function () {
+        "use strict";
+        function t(t, n) {
+          var e = Object.keys(t);
+          if (Object.getOwnPropertySymbols) {
+            var r = Object.getOwnPropertySymbols(t);
+            n &&
+              (r = r.filter(function (n) {
+                return Object.getOwnPropertyDescriptor(t, n).enumerable;
+              })),
+              e.push.apply(e, r);
+          }
+          return e;
+        }
+        function n(n) {
+          for (var e = 1; e < arguments.length; e++) {
+            var r = null != arguments[e] ? arguments[e] : {};
+            e % 2
+              ? t(Object(r), !0).forEach(function (t) {
+                  o(n, t, r[t]);
+                })
+              : Object.getOwnPropertyDescriptors
+              ? Object.defineProperties(n, Object.getOwnPropertyDescriptors(r))
+              : t(Object(r)).forEach(function (t) {
+                  Object.defineProperty(
+                    n,
+                    t,
+                    Object.getOwnPropertyDescriptor(r, t)
+                  );
+                });
+          }
+          return n;
+        }
+        function e(t) {
+          return (e =
+            "function" == typeof Symbol && "symbol" == typeof Symbol.iterator
+              ? function (t) {
+                  return typeof t;
+                }
+              : function (t) {
+                  return t &&
+                    "function" == typeof Symbol &&
+                    t.constructor === Symbol &&
+                    t !== Symbol.prototype
+                    ? "symbol"
+                    : typeof t;
+                })(t);
+        }
+        function r(t, n) {
+          if (!(t instanceof n))
+            throw new TypeError("Cannot call a class as a function");
+        }
+        function i(t, n) {
+          for (var e = 0; e < n.length; e++) {
+            var r = n[e];
+            (r.enumerable = r.enumerable || !1),
+              (r.configurable = !0),
+              "value" in r && (r.writable = !0),
+              Object.defineProperty(t, r.key, r);
+          }
+        }
+        function u(t, n, e) {
+          return n && i(t.prototype, n), e && i(t, e), t;
+        }
+        function o(t, n, e) {
+          return (
+            n in t
+              ? Object.defineProperty(t, n, {
+                  value: e,
+                  enumerable: !0,
+                  configurable: !0,
+                  writable: !0,
+                })
+              : (t[n] = e),
+            t
+          );
+        }
+        function a(t) {
+          return (a = Object.setPrototypeOf
+            ? Object.getPrototypeOf
+            : function (t) {
+                return t.__proto__ || Object.getPrototypeOf(t);
+              })(t);
+        }
+        function l(t, n) {
+          return (l =
+            Object.setPrototypeOf ||
+            function (t, n) {
+              return (t.__proto__ = n), t;
+            })(t, n);
+        }
+        function s() {
+          if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
+          if (Reflect.construct.sham) return !1;
+          if ("function" == typeof Proxy) return !0;
+          try {
+            return (
+              Boolean.prototype.valueOf.call(
+                Reflect.construct(Boolean, [], function () {})
+              ),
+              !0
+            );
+          } catch (t) {
+            return !1;
+          }
+        }
+        function f(t, n, e) {
+          return (f = s()
+            ? Reflect.construct
+            : function (t, n, e) {
+                var r = [null];
+                r.push.apply(r, n);
+                var i = new (Function.bind.apply(t, r))();
+                return e && l(i, e.prototype), i;
+              }).apply(null, arguments);
+        }
+        function c(t, n) {
+          if (n && ("object" == typeof n || "function" == typeof n)) return n;
+          if (void 0 !== n)
+            throw new TypeError(
+              "Derived constructors may only return object or undefined"
+            );
+          return (function (t) {
+            if (void 0 === t)
+              throw new ReferenceError(
+                "this hasn't been initialised - super() hasn't been called"
+              );
+            return t;
+          })(t);
+        }
+        function h(t, n, e) {
+          return (h =
+            "undefined" != typeof Reflect && Reflect.get
+              ? Reflect.get
+              : function (t, n, e) {
+                  var r = (function (t, n) {
+                    for (
+                      ;
+                      !Object.prototype.hasOwnProperty.call(t, n) &&
+                      null !== (t = a(t));
+
+                    );
+                    return t;
+                  })(t, n);
+                  if (r) {
+                    var i = Object.getOwnPropertyDescriptor(r, n);
+                    return i.get ? i.get.call(e) : i.value;
+                  }
+                })(t, n, e || t);
+        }
+        function v(t) {
+          return (
+            (function (t) {
+              if (Array.isArray(t)) return y(t);
+            })(t) ||
+            (function (t) {
+              if (
+                ("undefined" != typeof Symbol && null != t[Symbol.iterator]) ||
+                null != t["@@iterator"]
+              )
+                return Array.from(t);
+            })(t) ||
+            (function (t, n) {
+              if (t) {
+                if ("string" == typeof t) return y(t, n);
+                var e = Object.prototype.toString.call(t).slice(8, -1);
+                return (
+                  "Object" === e && t.constructor && (e = t.constructor.name),
+                  "Map" === e || "Set" === e
+                    ? Array.from(t)
+                    : "Arguments" === e ||
+                      /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(e)
+                    ? y(t, n)
+                    : void 0
+                );
+              }
+            })(t) ||
+            (function () {
+              throw new TypeError(
+                "Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."
+              );
+            })()
+          );
+        }
+        function y(t, n) {
+          (null == n || n > t.length) && (n = t.length);
+          for (var e = 0, r = new Array(n); e < n; e++) r[e] = t[e];
+          return r;
+        }
+        function p(t, n) {
+          for (var e = 0; e < n.length; e++) {
+            var r = n[e];
+            (r.enumerable = r.enumerable || !1),
+              (r.configurable = !0),
+              "value" in r && (r.writable = !0),
+              Object.defineProperty(t, r.key, r);
+          }
+        }
+        function d(t, n, e) {
+          return (
+            n in t
+              ? Object.defineProperty(t, n, {
+                  value: e,
+                  enumerable: !0,
+                  configurable: !0,
+                  writable: !0,
+                })
+              : (t[n] = e),
+            t
+          );
+        }
+        function m(t) {
+          return (m = Object.setPrototypeOf
+            ? Object.getPrototypeOf
+            : function (t) {
+                return t.__proto__ || Object.getPrototypeOf(t);
+              })(t);
+        }
+        function b(t, n) {
+          return (b =
+            Object.setPrototypeOf ||
+            function (t, n) {
+              return (t.__proto__ = n), t;
+            })(t, n);
+        }
+        function g(t) {
+          if (void 0 === t)
+            throw new ReferenceError(
+              "this hasn't been initialised - super() hasn't been called"
+            );
+          return t;
+        }
+        function w(t, n) {
+          if (!(t instanceof n))
+            throw new TypeError("Cannot call a class as a function");
+        }
+        function x(t, n) {
+          return !n || ("object" != typeof n && "function" != typeof n)
+            ? (function (t) {
+                if (void 0 === t)
+                  throw new ReferenceError(
+                    "this hasn't been initialised - super() hasn't been called"
+                  );
+                return t;
+              })(t)
+            : n;
+        }
+        function S(t) {
+          return (
+            (function (t) {
+              if (Array.isArray(t)) return j(t);
+            })(t) ||
+            function (t) {
+              if (
+                ("undefined" != typeof Symbol && null != t[Symbol.iterator]) ||
+                null != t["@@iterator"]
+              )
+                return t;
+            }
+          );
+          if (
+            "string" == typeof t ||
+            "[object String]" === Object.prototype.toString.call(t)
+          )
+            return j(t);
+          throw new TypeError(
+            "Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."
+          );
+        }
+        function j(t, n) {
+          (null == n || n > t.length) && (n = t.length);
+          for (var e = 0, r = new Array(n); e < n; e++) r[e] = t[e];
+          return r;
+        }
+        function E(t, n) {
+          if (!(t instanceof n))
+            throw new TypeError("Cannot call a class as a function");
+        }
+        function A(t, n) {
+          for (var e = 0; e < n.length; e++) {
+            var r = n[e];
+            (r.enumerable = r.enumerable || !1),
+              (r.configurable = !0),
+              "value" in r && (r.writable = !0),
+              Object.defineProperty(t, r.key, r);
+          }
+        }
+        function k(t, n, e) {
+          return n && A(t.prototype, n), e && A(t, e), t;
+        }
+        function T(t, n) {
+          if ("function" != typeof n && null !== n)
+            throw new TypeError(
+              "Super expression must either be null or a function"
+            );
+          (t.prototype = Object.create(n && n.prototype, {
+            constructor: { value: t, writable: !0, configurable: !0 },
+          })),
+            n && N(t, n);
+        }
+        function N(t, n) {
+          return (N =
+            Object.setPrototypeOf ||
+            function (t, n) {
+              return (t.__proto__ = n), t;
+            })(t, n);
+        }
+        function R(t) {
+          var n = "function" == typeof Map ? new Map() : void 0;
+          return (R = (function (t) {
+            if (
+              null === t ||
+              (function (t) {
+                return (
+                  -1 === Function.toString.call(t).indexOf("[native code]")
+                );
+              })(t)
+            )
+              return t;
+            if ("function" != typeof t)
+              throw new TypeError(
+                "Super expression must either be null or a function"
+              );
+            if (void 0 !== n) {
+              if (n.has(t)) return n.get(t);
+              n.set(t, e);
+            }
+            function e() {
+              return F(t, arguments, m(this).constructor);
+            }
+            return (
+              (e.prototype = Object.create(t.prototype, {
+                constructor: {
+                  value: e,
+                  enumerable: !1,
+                  writable: !0,
+                  configurable: !0,
+                },
+              })),
+              N(e, t)
+            );
+          })(t));
+          function F(t, n, e) {
+            return ((F = (function () {
+              if ("undefined" == typeof Reflect || !Reflect.construct)
+                return !1;
+              if (Reflect.construct.sham) return !1;
+              if ("function" == typeof Proxy) return !0;
+              try {
+                return (
+                  Boolean.prototype.valueOf.call(
+                    Reflect.construct(Boolean, [], function () {})
+                  ),
+                  !0
+                );
+              } catch (t) {
+                return !1;
+              }
+            })()),
+            function (t, n, e, r) {
+              var i = Object.getOwnPropertyDescriptor(t.prototype, e);
+              if (void 0 === i)
+                return Object.create(n.prototype).constructor.apply(t, r);
+              if ("value" in i && i.writable)
+                return (
+                  Object.defineProperty(t.prototype, e, {
+                    value: r[0],
+                    enumerable: !1,
+                    configurable: !0,
+                  }),
+                  r[0]
+                );
+              var u = i.get;
+              if (void 0 !== u) return u.call(r);
+              throw new TypeError("Cannot instantiate cyclic generator");
+            })(t, n, e || t);
+          }
+          var _ = (function (t) {
+              function n() {
+                return r(this, n), c(this, a(n).apply(this, arguments));
+              }
+              return T(n, t), n;
+            })(
+              (function () {
+                function t() {
+                  w(this, t);
+                }
+                return (
+                  k(t, null, [
+                    {
+                      key: "sayHi",
+                      value: function () {
+                        return "Hi";
+                      },
+                    },
+                  ]),
+                  t
+                );
+              })()
+            ),
+            P = (function (t) {
+              function n(t) {
+                var e;
+                return (
+                  w(this, n),
+                  ((e = x(this, a(n).call(this, t))).text =
+                    "Hello, I am " + t.name + "!"),
+                  e
+                );
+              }
+              return T(n, t), n;
+            })(
+              (function () {
+                function t() {
+                  E(this, t);
+                }
+                return (
+                  k(t, null, [
+                    {
+                      key: "sayHello",
+                      value: function () {
+                        return "Hello";
+                      },
+                    },
+                  ]),
+                  t
+                );
+              })()
+            ),
+            D = (function (t) {
+              function n(t, e) {
+                var i;
+                return (
+                  w(this, n),
+                  (i = c(this, a(n).call(this, t))),
+                  (i.surname = e),
+                  i
+                );
+              }
+              return T(n, t), n;
+            })(
+              (function () {
+                function t(t, e) {
+                  var i;
+                  return (
+                    E(this, t), ((i = x(this, a(t).call(this))).surname = e), i
+                  );
+                }
+                return (
+                  T(t, null, [
+                    {
+                      key: "sayBye",
+                      value: function () {
+                        return "Bye";
+                      },
+                    },
+                  ]),
+                  t
+                );
+              })()
+            );
+          console.log(_.sayHi()),
+            console.log(P.sayHello()),
+            console.log(new D("John", "Doe").surname),
+            console.log(D.sayBye());
+          var M = (function () {
+              function t() {
+                r(this, t), (this.subscribers = []);
+              }
+              return (
+                u(t, [
+                  {
+                    key: "add",
+                    value: function (t) {
+                      return this.subscribers.push(t), this;
+                    },
+                  },
+                  {
+                    key: "remove",
+                    value: function (t) {
+                      var n = this.subscribers.indexOf(t);
+                      return n > -1 && this.subscribers.splice(n, 1), this;
+                    },
+                  },
+                  {
+                    key: "notify",
+                    value: function () {
+                      for (
+                        var t = arguments.length, n = new Array(t), e = 0;
+                        e < t;
+                        e++
+                      )
+                        n[e] = arguments[e];
+                      return (
+                        this.subscribers.forEach(function (t) {
+                          return t.apply(void 0, n);
+                        }),
+                        this
+                      );
+                    },
+                  },
+                ]),
+                t
+              );
+            })(),
+            B = (function (t) {
+              function n() {
+                var t, e, r;
+                return (
+                  (r = (t = p(this, a(n).apply(this, arguments))).width =
+                    null !== (e = t.options) && void 0 !== e ? e.width : e),
+                  (r.height =
+                    null !== (e = t.options) && void 0 !== e ? e.height : e),
+                  t
+                );
+              }
+              return (
+                T(n, t),
+                u(n, [
+                  {
+                    key: "getArea",
+                    value: function () {
+                      return this.width * this.height;
+                    },
+                  },
+                ]),
+                n
+              );
+            })(
+              (function () {
+                function t(e) {
+                  var i;
+                  return (
+                    w(this, t), ((i = x(this, a(t).call(this))).options = e), i
+                  );
+                }
+                return (
+                  k(t, null, [
+                    {
+                      key: "saySomething",
+                      value: function () {
+                        return "Something";
+                      },
+                    },
+                  ]),
+                  t
+                );
+              })()
+            ),
+            C = (function () {
+              function t() {
+                r(this, t);
+              }
+              return (
+                u(t, [
+                  {
+                    key: "update",
+                    value: function (t) {
+                      console.log("Update: " + t);
+                    },
+                  },
+                ]),
+                t
+              );
+            })();
+          console.log(B.saySomething());
+          var O = (function (t) {
+              function n(t) {
+                var e;
+                return (
+                  r(this, n),
+                  ((e = c(this, a(n).call(this, t))).observer = new C()),
+                  e
+                );
+              }
+              return T(n, t), n;
+            })(
+              (function () {
+                function t() {
+                  E(this, t);
+                }
+                return (
+                  k(t, null, [
+                    {
+                      key: "isTooBig",
+                      value: function (t, n) {
+                        return t > n;
+                      },
+                    },
+                  ]),
+                  t
+                );
+              })()
+            ),
+            I = (function (t) {
+              function n(t, e) {
+                var r;
+                return (
+                  w(this, n), ((r = c(this, a(n).call(this, t))).width = e), r
+                );
+              }
+              return T(n, t), n;
+            })(
+              (function () {
+                function t() {
+                  E(this, t);
+                }
+                return (
+                  k(t, null, [
+                    {
+                      key: "isTooSmall",
+                      value: function (t, n) {
+                        return t < n;
+                      },
+                    },
+                  ]),
+                  t
+                );
+              })()
+            ),
+            q = (function (t) {
+              function n(t, e, r) {
+                var i;
+                return (
+                  w(this, n),
+                  ((i = c(this, a(n).call(this, t, e))).height = r),
+                  (i.add = i.add.bind(g(i))),
+                  (i.remove = i.remove.bind(g(i))),
+                  (i.notify = i.notify.bind(g(i))),
+                  i
+                );
+              }
+              return (
+                T(n, t),
+                u(n, [
+                  {
+                    key: "setWidth",
+                    value: function (t) {
+                      return (this.width = t), this.notify();
+                    },
+                    key: "setHeight",
+                    value: function (t) {
+                      return (this.height = t), this.notify();
+                    },
+                    key: "add",
+                    value: function (t) {
+                      return this.addObserver(t), this;
+                    },
+                  },
+                  {
+                    key: "remove",
+                    value: function (t) {
+                      return this.removeObserver(t), this;
+                    },
+                  },
+                  {
+                    key: "addObserver",
+                    value: function (t) {
+                      this.observers.add(t);
+                    },
+                    key: "removeObserver",
+                    value: function (t) {
+                      this.observers.remove(t);
+                    },
+                    key: "notify",
+                    value: function () {
+                      for (
+                        var t = arguments.length, n = new Array(t), e = 0;
+                        e < t;
+                        e++
+                      )
+                        n[e] = arguments[e];
+                      this.observers.notify(this.width, this.height);
+                    },
+                  },
+                ]),
+                n
+              );
+            })(
+              (function () {
+                function t(e, r) {
+                  var i;
+                  return (
+                    w(this, t),
+                    ((i = x(this, a(t).call(this, e))).height = r),
+                    (i.observers = new M()),
+                    i
+                  );
+                }
+                return (
+                  k(t, null, [
+                    {
+                      key: "of",
+                      value: function (t, n, e) {
+                        return new this(t, n, e);
+                      },
+                    },
+                  ]),
+                  t
+                );
+              })()
+            ),
+            U = new q(3, 4, function () {}),
+            L = new q(10, 12, function () {}),
+            H = new q(20, 22, function () {}),
+            V = new B({ width: 20, height: 30 });
+          console.log(U.getArea()),
+            console.log(L.getArea()),
+            console.log(H.getArea()),
+            console.log(V.getArea()),
+            U.addObserver(function (t, n) {
+              console.log("U:", t, n);
+            }),
+            L.addObserver(function (t, n) {
+              console.log("L:", t, n);
+            }),
+            H.addObserver(function (t, n) {
+              console.log("H:", t, n);
+            }),
+            V.addObserver(function (t, n) {
+              console.log("V:", t, n);
+            }),
+            U.setWidth(4),
+            L.setHeight(13),
+            H.setWidth(21),
+            V.setHeight(35);
+          var z = new q(5, 6, function (t, n) {
+            console.log("NEW:", t, n);
+          });
+          z.addObserver(function (t, n) {
+            console.log("z:", t, n);
+          }),
+            z.setWidth(7),
+            z.setHeight(8);
+        }
+      });
+
+      var objetoGLB;
+      var mixer;
+    </script>
+  </body>
+</html>
