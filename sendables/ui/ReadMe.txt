@@ -1,0 +1,1 @@
+Cada uno tiene 3 frames = estados , el 1. Es estado basico (iddle), 2. Animacion (Transition), 3.Hover Anim.  = 3s 
