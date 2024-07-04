@@ -231,16 +231,9 @@ function animate() {
 
   // Actualizar la animación
 
-  if (mixer && cameraControls) {
-    const delta = clock.getDelta();
 
-    const hasControlsUpdated = cameraControls.update(delta);
 
-    if (hasControlsUpdated) {
 
-      renderer.render(scene1, camera);
-    }
-  }
   if (animating) {
     // Actualizar la animación
     if (mixer) {
@@ -265,7 +258,7 @@ function animate() {
     }
 
     // Renderizar la escena
-
+    console.log("delta2");
     renderer.render(scene1, camera);
 
     // Volver a solicitar el próximo cuadro de animación
@@ -280,6 +273,19 @@ function animate() {
       } else {
         animating = false;
       }
+    }
+  }
+
+  if (mixer && cameraControls) {
+    const delta = clock.getDelta();
+
+    const hasControlsUpdated = cameraControls.update(delta);
+    requestAnimationFrame(animate);
+    if (hasControlsUpdated) {
+      animating = false;
+      console.log("delta1");
+      renderer.render(scene1, camera);
+      return;
     }
   }
   /*
@@ -326,7 +332,7 @@ async function loadHeavyModelInBackground() {
   let speed;
   let timeRemaining;
 
-  gltf = await loader.loadAsync('media/VictoriaEugenia3.glb',
+  gltf = await loader.loadAsync('media/VictoriaEugeniaIsla.glb',
     (xhr) => { // onProgress callback 
       let loaded = xhr.loaded; // get the number of bytes transferred so far
       let total = xhr.total; // get the total number of bytes to be transferred
@@ -348,6 +354,37 @@ async function loadHeavyModelInBackground() {
     function parseNextChunk() {
 
       if (parsedCount >= totalObjects - 1) {
+        const disposeObjects = async () => {
+          const disposeChunk = (child) => {
+            return new Promise((resolve) => {
+              if (child.isMesh) {
+                // Configurar frustum culling
+                child.frustumCulled = true; // Activar frustum culling (comportamiento predeterminado)
+
+                // Actualizar volúmenes de contorno
+                if (child.geometry) {
+                  child.geometry.computeBoundingBox();
+                  child.geometry.computeBoundingSphere();
+                }
+              }
+              resolve();
+            });
+          };
+
+          for (const child of gltf.scene.children) {
+            if (window.requestIdleCallback) {
+              await new Promise((resolve) =>
+                requestIdleCallback(() => disposeChunk(child).then(resolve))
+              );
+            } else {
+              await disposeChunk(child);
+            }
+          }
+          await disposeObjects();
+        };
+
+
+
         scene1.add(gltf.scene);
         // ... (your animations, post-processing, etc.)
         if (parsedCount == totalObjects - 1) {
@@ -451,33 +488,12 @@ async function loadHeavyModelInBackground() {
 
             }
 
+
             scene1.add(scene);
+
             renderer.render(scene1, camera);
 
-            const disposeObjects = async () => {
-              const disposeChunk = (child) => {
-                return new Promise((resolve) => {
-                  if (child.isMesh) {
-                    const material = child.material;
-                    material.receiveShadow = true;
-                    child.castShadow = true;
-                    child.receiveShadow = true;
-                  }
-                  resolve();
-                });
-              };
 
-              for (const child of gltf.scene.children) {
-                if (window.requestIdleCallback) {
-                  await new Promise((resolve) =>
-                    requestIdleCallback(() => disposeChunk(child).then(resolve))
-                  );
-                } else {
-                  await disposeChunk(child);
-                }
-              }
-              await disposeObjects();
-            };
 
           }
 
@@ -618,12 +634,13 @@ async function introAnimation() {
         document.getElementById("prueba2").style.visibility = "visible";
         document.getElementById("prueba3").style.visibility = "visible";
         cameraControls = new CameraControls(camera, renderer.domElement);
-        const cameraPosition = new THREE.Vector3(201.99363024143804, 299.4934770378052, -452.5893368985945);
+        const cameraPosition = new THREE.Vector3(-817.4701599756836, 150.00000000000006, 20.23478695904612);
         
-
+       
+  
         // Define el punto al que la cámara debe mirar
-        const targetPosition = new THREE.Vector3(396.8369140625, 50, -375.08111572265625);
-
+        const targetPosition = new THREE.Vector3(-917.4701599756836, 150.00000000000006, 121.81469027251936);
+        
         // Utiliza setLookAt() para configurar la vista inicial
         cameraControls.setLookAt(
           cameraPosition.x,
@@ -675,12 +692,14 @@ async function introAnimation() {
               cameraPosition.z * cameraPosition.z
             );
 
-            const sphereRadius = 750; // Ajusta el radio de la esfera
+            const sphereRadius = 950; // Ajusta el radio de la esfera
+            
             if (horizontalDistance > sphereRadius) {
               const scaleFactor = sphereRadius / horizontalDistance;
               cameraPosition.x *= scaleFactor;
               cameraPosition.z *= scaleFactor;
             }
+              
 
             if (cameraControls.distance >= 1900) {
               cameraControls.distance = 1900;
@@ -713,6 +732,7 @@ async function introAnimation() {
 
             // Verificar si la cámara está por debajo del límite en Y
             console.log(window.player.mapMode,"E");
+
             if(window.player.mapMode == true){
               if (cameraPosition.y < minY) {
                 cameraPosition.y = minY;
@@ -721,8 +741,9 @@ async function introAnimation() {
               if (cameraPosition.y > maxY) {
                 cameraPosition.y = maxY;
               }
-              console.log("mapMode");
+             // console.log("mapMode");
             }
+
             if(window.player.carMode == true){
               if (cameraPosition.y < 10) {
                 cameraPosition.y = 10;
@@ -731,8 +752,9 @@ async function introAnimation() {
               if (cameraPosition.y > minY) {
                 cameraPosition.y = minY;
               }
-              console.log("carMode");
+              //console.log("carMode");
             }
+
             if(window.player.droneMode == true){
               if (cameraPosition.y < maxY) {
                 cameraPosition.y = maxY;
@@ -741,7 +763,7 @@ async function introAnimation() {
               if (cameraPosition.y > (maxY + 40)) {
                 cameraPosition.y = (maxY + 40);
               }
-              console.log("droneMode");
+              //console.log("droneMode");
             }
 
 
@@ -918,21 +940,21 @@ window.onload = function () {
     gsap.to(["#image1", "#image2", "#image3"], {
       scale: 4,
       opacity: 0,
-      duration: 10
+      duration: 5
     });
     gsap.to("#image1", {
       x: 1000,
       y: 1000,
-      duration: 10
+      duration: 5
     });
     gsap.to("#image2", {
       x: -700,
       y: -700,
-      duration: 8,
+      duration: 3,
       onComplete: () => {  // Callback function after this animation completes
         gsap.to(".container2", {
           opacity: 0,
-          duration: 2
+          duration: 1
 
         });
         document.getElementById("overlayContainer").style.background = "none";
@@ -951,11 +973,11 @@ window.onload = function () {
     gsap.to("#image3", {
       x: 1000,
       y: -1000,
-      duration: 10
+      duration: 5
     });
     gsap.to(".container2", {
       opacity: 0,
-      duration: 7
+      duration: 3
     });
     //console.log(animating);
     if (!animating) {
