@@ -366,6 +366,7 @@ async function loadHeavyModelInBackground() {
                   child.geometry.computeBoundingBox();
                   child.geometry.computeBoundingSphere();
                 }
+                console.log("child Animation", child)
               }
               resolve();
             });
@@ -631,7 +632,6 @@ async function introAnimation() {
 
         // Animación y renderizado
         document.getElementById("prueba1").style.visibility = "visible";
-        document.getElementById("prueba2").style.visibility = "visible";
         document.getElementById("prueba3").style.visibility = "visible";
         cameraControls = new CameraControls(camera, renderer.domElement);
         const cameraPosition = new THREE.Vector3(-817.4701599756836, 150.00000000000006, 20.23478695904612);
