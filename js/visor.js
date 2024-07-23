@@ -462,7 +462,7 @@ async function loadHeavyModelInBackground() {
             const animations = gltf.animations;
 
             window.player.animationStack = animations;
-            const animationsReal = [animations[0]];
+            const animationsReal = [animations[3]];
             console.log(animations);
             if (animationsReal.length > 1) console.log(animationsReal);
             if (animationsReal.length) {
